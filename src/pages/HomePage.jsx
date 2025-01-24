@@ -5,6 +5,7 @@ import InstallGuide from "../components/UI/InstallGuide";
 import ProjectList from "../components/Projects/ProjectList";
 import { projects } from "../data/projects";
 import { slideUp, stagger } from "../styles/animations";
+// adding this to do a commit
 
 const HomePage = () => {
   return (
