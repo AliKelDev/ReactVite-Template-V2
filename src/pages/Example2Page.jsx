@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Save, ArrowLeft, CheckCircle, AlertCircle, Coffee } from 'lucide-react';
+import { Send, Save, CheckCircle, Coffee } from 'lucide-react';
 
-const exemple2Page = () => {
+const Example2Page = () => {
   const [showNotification, setShowNotification] = useState(false);
   const [formData, setFormData] = useState({
     name: 'John Anderson',
@@ -24,12 +24,11 @@ const exemple2Page = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-indigo-900/20 to-slate-900 text-white pt-20 px-4">
-      <motion.div 
-        className="max-w-2xl mx-auto"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
+    <motion.div
+      className="max-w-2xl mx-auto"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+    >
         <div className="text-center mb-12">
           <motion.h1 
             className="text-4xl md:text-5xl font-bold mb-4 relative inline-block"
@@ -46,7 +45,7 @@ const exemple2Page = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            Let's discuss your next project
+            Let&apos;s discuss your next project
           </motion.p>
         </div>
 
@@ -155,9 +154,8 @@ const exemple2Page = () => {
             <span>Available for meetings and consultations</span>
           </p>
         </motion.div>
-      </motion.div>
-    </div>
+    </motion.div>
   );
 };
 
-export default exemple2Page;
+export default Example2Page;

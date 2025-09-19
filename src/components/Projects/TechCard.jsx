@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import PropTypes from 'prop-types';
 import { slideUp } from '../../styles/animations';
 
 const TechCard = ({ title, desc, Icon }) => (
@@ -24,5 +25,11 @@ const TechCard = ({ title, desc, Icon }) => (
     <p className="text-indigo-200 group-hover:text-white transition-colors">{desc}</p>
   </motion.div>
 );
+
+TechCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  desc: PropTypes.string.isRequired,
+  Icon: PropTypes.elementType.isRequired,
+};
 
 export default TechCard;

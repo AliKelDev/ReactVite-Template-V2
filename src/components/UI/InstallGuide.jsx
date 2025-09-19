@@ -10,9 +10,9 @@ const InstallGuide = () => (
     whileInView="animate"
     viewport={{ once: true }}
   >
-    <div className="rounded-lg border border-indigo-500/30 bg-indigo-950/90 backdrop-blur-sm overflow-hidden shadow-xl shadow-indigo-500/20">
+    <div className="rounded-lg border border-primary-500/30 bg-primary-950/90 backdrop-blur-sm overflow-hidden shadow-xl shadow-primary-500/20">
       <motion.div 
-        className="flex items-center px-4 py-2 border-b border-indigo-500/30 bg-indigo-900/20"
+        className="flex items-center px-4 py-2 border-b border-primary-500/30 bg-primary-900/20"
         whileHover={{ backgroundColor: "rgba(79, 70, 229, 0.3)" }}
       >
         <div className="flex items-center gap-2">
@@ -35,16 +35,16 @@ const InstallGuide = () => (
       </motion.div>
       <div className="p-6 font-mono text-sm">
         <motion.div variants={stagger}>
-          <motion.p variants={slideUp} className="text-indigo-300 mb-4"># Clone the repository</motion.p>
-          <motion.p variants={slideUp} className="text-emerald-400 mb-4">$ git clone https://github.com/AliKelDev/ReactViteTemplate.git</motion.p>
-          
-          <motion.p variants={slideUp} className="text-indigo-300 mb-4"># Install dependencies</motion.p>
-          <motion.p variants={slideUp} className="text-emerald-400 mb-4">$ cd ReactViteTemplate<br />$ npm install</motion.p>
-          
-          <motion.p variants={slideUp} className="text-indigo-300 mb-4"># Start development server</motion.p>
+          <motion.p variants={slideUp} className="text-primary-300 mb-4"># Clone the repository</motion.p>
+          <motion.p variants={slideUp} className="text-emerald-400 mb-4">$ git clone https://github.com/AliKelDev/ReactVite-Template-V2.git</motion.p>
+
+          <motion.p variants={slideUp} className="text-primary-300 mb-4"># Install dependencies</motion.p>
+          <motion.p variants={slideUp} className="text-emerald-400 mb-4">$ cd ReactVite-Template-V2<br />$ npm install</motion.p>
+
+          <motion.p variants={slideUp} className="text-primary-300 mb-4"># Start development server</motion.p>
           <motion.p variants={slideUp} className="text-emerald-400 mb-4">$ npm run dev</motion.p>
-          
-          <motion.p variants={slideUp} className="text-indigo-300 mb-4"># Build and deploy</motion.p>
+
+          <motion.p variants={slideUp} className="text-primary-300 mb-4"># Build and deploy</motion.p>
           <motion.p variants={slideUp} className="text-emerald-400">$ npm run build<br />$ npm run deploy</motion.p>
         </motion.div>
       </div>
@@ -55,12 +55,12 @@ const InstallGuide = () => (
     >
       <a 
         href="https://aliceleiserblog.netlify.app/blog/how-to-build-your-professional-website-in-10-minutes"
-        className="text-indigo-300 hover:text-indigo-400 transition-colors inline-flex items-center gap-2 group"
+        className="text-primary-300 hover:text-primary-400 transition-colors inline-flex items-center gap-2 group"
       >
         <span className="relative">
           For detailed instructions, check out my blog
           <motion.span 
-            className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-500 transform scale-x-0 origin-left transition-transform duration-300"
+            className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-500 transform scale-x-0 origin-left transition-transform duration-300"
             whileHover={{ scaleX: 1 }}
           />
         </span>

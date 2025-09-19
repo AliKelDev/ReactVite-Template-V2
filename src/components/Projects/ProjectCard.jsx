@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import PropTypes from 'prop-types';
 import { ExternalLink, Terminal } from 'lucide-react';
 import TechCard from './TechCard';
 import PreviewEmbed from '../UI/PreviewEmbed';
@@ -82,5 +83,21 @@ const ProjectCard = ({ project }) => (
     </motion.div>
   </motion.div>
 );
+
+ProjectCard.propTypes = {
+  project: PropTypes.shape({
+    previewUrl: PropTypes.string.isRequired,
+    client: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    technologies: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        desc: PropTypes.string.isRequired,
+        Icon: PropTypes.elementType.isRequired,
+      })
+    ).isRequired,
+  }).isRequired,
+};
 
 export default ProjectCard;

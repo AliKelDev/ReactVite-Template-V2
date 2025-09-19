@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import PropTypes from 'prop-types';
 import { Shield, Swords, Crown, CheckCircle, AlertCircle } from 'lucide-react';
 
 const PricingTier = ({ tier, onSelect }) => {
@@ -88,7 +89,18 @@ const PricingTier = ({ tier, onSelect }) => {
   );
 };
 
-const exemple3Page = () => {
+PricingTier.propTypes = {
+  tier: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    features: PropTypes.arrayOf(PropTypes.string).isRequired,
+    popular: PropTypes.bool,
+  }).isRequired,
+  onSelect: PropTypes.func.isRequired,
+};
+
+const Example3Page = () => {
   const [showMessage, setShowMessage] = useState(false);
   const [messageType, setMessageType] = useState('');
 
@@ -151,12 +163,11 @@ const exemple3Page = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-indigo-900/20 to-slate-900 text-white pt-20 px-4">
-      <motion.div 
-        className="max-w-6xl mx-auto"
-        initial="initial"
-        animate="animate"
-      >
+    <motion.div
+      className="max-w-6xl mx-auto"
+      initial="initial"
+      animate="animate"
+    >
         <motion.div 
           className="text-center mb-20"
           initial={{ opacity: 0, y: 20 }}
@@ -208,9 +219,8 @@ const exemple3Page = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.div>
-    </div>
+    </motion.div>
   );
 };
 
-export default exemple3Page;
+export default Example3Page;

@@ -1,6 +1,6 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Star, Award, Bookmark, ChevronRight } from 'lucide-react';
+import PropTypes from 'prop-types';
+import { Star, Award, Bookmark, ChevronRight } from 'lucide-react';
 
 const projects = [
   {
@@ -61,7 +61,12 @@ const MetricBar = ({ value, label }) => (
   </div>
 );
 
-const ProjectCard = ({ project, index }) => {
+MetricBar.propTypes = {
+  value: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
+};
+
+const ProjectCard = ({ project }) => {
   return (
     <motion.div 
       variants={fadeInUp}
@@ -116,21 +121,30 @@ const ProjectCard = ({ project, index }) => {
   );
 };
 
-const exemple1Page = () => {
+ProjectCard.propTypes = {
+  project: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    review: PropTypes.string.isRequired,
+    rating: PropTypes.string.isRequired,
+    metrics: PropTypes.objectOf(PropTypes.number).isRequired,
+  }).isRequired,
+};
+
+const Example1Page = () => {
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-purple-900/20 to-slate-900 text-white pt-32 px-4">
-      <motion.div 
-        className="max-w-4xl mx-auto"
-        initial="initial"
-        animate="animate"
-        variants={{
-          animate: {
-            transition: {
-              staggerChildren: 0.1
-            }
+    <motion.div
+      className="max-w-4xl mx-auto"
+      initial="initial"
+      animate="animate"
+      variants={{
+        animate: {
+          transition: {
+            staggerChildren: 0.1
           }
-        }}
-      >
+        }
+      }}
+    >
         <motion.div 
           className="text-center mb-20"
           variants={fadeInUp}
@@ -159,9 +173,8 @@ const exemple1Page = () => {
             <ProjectCard key={index} project={project} index={index} />
           ))}
         </motion.div>
-      </motion.div>
-    </div>
+    </motion.div>
   );
 };
 
-export default exemple1Page;
+export default Example1Page;

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import PropTypes from 'prop-types';
 import { Loader } from 'lucide-react';
 
 const PreviewEmbed = ({ siteUrl }) => {
@@ -86,6 +87,10 @@ const PreviewEmbed = ({ siteUrl }) => {
       </div>
     </motion.div>
   );
+};
+
+PreviewEmbed.propTypes = {
+  siteUrl: PropTypes.string.isRequired,
 };
 
 export default PreviewEmbed;

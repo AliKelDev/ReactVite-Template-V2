@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import PropTypes from 'prop-types';
 import ProjectCard from './ProjectCard';
 import { slideUp, stagger } from '../../styles/animations';
 
@@ -27,5 +28,23 @@ const ProjectList = ({ projects }) => (
     </motion.div>
   </motion.div>
 );
+
+ProjectList.propTypes = {
+  projects: PropTypes.arrayOf(
+    PropTypes.shape({
+      previewUrl: PropTypes.string.isRequired,
+      client: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      technologies: PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string.isRequired,
+          desc: PropTypes.string.isRequired,
+          Icon: PropTypes.elementType.isRequired,
+        })
+      ).isRequired,
+    })
+  ).isRequired,
+};
 
 export default ProjectList;
