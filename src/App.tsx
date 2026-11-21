@@ -73,15 +73,23 @@ function CheckIcon() {
   );
 }
 
+function ResetIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M4.5 12a7.5 7.5 0 1 0 7.5-7.5 8.13 8.13 0 0 0-5.62 2.28L4.5 8.67" />
+      <path d="M4.5 4.5v4.17h4.17" />
+    </svg>
+  );
+}
+
 /** An icon key that copies the four start commands, and says so. */
-function CopyKey({ size = "sm", onPress }: { size?: "sm" | "md" | "lg"; onPress?: () => void }) {
+function CopyKey() {
   const [state, setState] = useState<"idle" | "copied" | "failed">("idle");
   const timer = useRef(0);
 
   useEffect(() => () => window.clearTimeout(timer.current), []);
 
   async function copy() {
-    onPress?.();
     try {
       await navigator.clipboard.writeText(COMMANDS.join("\n"));
       setState("copied");
@@ -94,7 +102,7 @@ function CopyKey({ size = "sm", onPress }: { size?: "sm" | "md" | "lg"; onPress?
 
   return (
     <span className="board-copy">
-      <Button icon size={size} aria-label="Copy the four commands" onClick={copy}>
+      <Button icon size="sm" aria-label="Copy the four commands" onClick={copy}>
         {state === "copied" ? <CheckIcon /> : <CopyIcon />}
       </Button>
       <span className="sg-kicker" role="status">
@@ -108,7 +116,7 @@ function CopyKey({ size = "sm", onPress }: { size?: "sm" | "md" | "lg"; onPress?
 function KeyPad({ ground }: { ground: "night" | "paper" }) {
   const [presses, setPresses] = useState(0);
   const night = ground === "night";
-  // Every key on the pad counts a press, from a pointer or from the keyboard.
+  // Every key on the pad counts a press, from a pointer or from the keyboard. The icon key sets the count back to zero.
   const press = () => setPresses((n) => n + 1);
 
   return (
@@ -137,7 +145,9 @@ function KeyPad({ ground }: { ground: "night" | "paper" }) {
         <Button size="lg" disabled>
           Disabled
         </Button>
-        <CopyKey size="lg" onPress={press} />
+        <Button icon size="lg" aria-label="Reset the press count" onClick={() => setPresses(0)}>
+          <ResetIcon />
+        </Button>
       </div>
       <div className="board-pad__row">
         <Button size="sm" onClick={press}>
