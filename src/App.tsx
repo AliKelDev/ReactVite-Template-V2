@@ -1,7 +1,25 @@
-import { useState } from "react";
-import { Button, Field, Kbd, Label, Led, Orbit, Panel, Readout, Rule, Scope, Tag, ThemeSwitch, Wordmark } from "./signal";
+import { useEffect, useRef, useState } from "react";
+import {
+  Button,
+  ButtonLink,
+  Field,
+  Kbd,
+  Label,
+  Led,
+  Orbit,
+  Panel,
+  Readout,
+  ReturnGlyph,
+  Rule,
+  Scope,
+  Tag,
+  ThemeSwitch,
+  Wordmark,
+} from "./signal";
 
 const REPO = "https://github.com/AliKelDev/ReactVite-Template-V2";
+
+const COMMANDS = ["npx degit AliKelDev/ReactVite-Template-V2 my-app", "cd my-app", "npm install", "npm run dev"];
 
 const GROUNDS = [
   { name: "Night", hex: "#0B0A08", role: "The ground for tools you use for hours.", swatch: "var(--night-0)", ink: "var(--bone-0)" },
@@ -11,9 +29,9 @@ const GROUNDS = [
 ];
 
 const FILES = [
-  ["src/signal/tokens.css", "Colours, type, spacing, motion. Override a handful and the whole project changes feel."],
+  ["src/signal/tokens.css", "Colours, type, spacing, motion, and the key materials for each ground. Override a handful and the whole project changes feel."],
   ["src/signal/base.css", "A quiet reset, the instrument grid, type defaults, reduced motion."],
-  ["src/signal/components.css", "Panels, buttons, fields, LEDs, readouts, tags, code, all prefixed sg-."],
+  ["src/signal/components.css", "Panels, keys, fields, LEDs, readouts, tags, code, all prefixed sg-."],
   ["src/signal/components.tsx", "The same parts as React components, typed."],
   ["src/signal/theme.ts", "Night and paper, remembered, with no flash on load."],
 ];
@@ -38,6 +56,110 @@ function BootDemo() {
   );
 }
 
+function CopyIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <rect x="9" y="9" width="11" height="11" rx="2" />
+      <path d="M5 15V5a1 1 0 0 1 1-1h9" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="m5 12.5 4.5 4.5L19 7.5" />
+    </svg>
+  );
+}
+
+/** An icon key that copies the four start commands, and says so. */
+function CopyKey({ size = "sm", onPress }: { size?: "sm" | "md" | "lg"; onPress?: () => void }) {
+  const [state, setState] = useState<"idle" | "copied" | "failed">("idle");
+  const timer = useRef(0);
+
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  async function copy() {
+    onPress?.();
+    try {
+      await navigator.clipboard.writeText(COMMANDS.join("\n"));
+      setState("copied");
+    } catch {
+      setState("failed");
+    }
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setState("idle"), 2400);
+  }
+
+  return (
+    <span className="board-copy">
+      <Button icon size={size} aria-label="Copy the four commands" onClick={copy}>
+        {state === "copied" ? <CheckIcon /> : <CopyIcon />}
+      </Button>
+      <span className="sg-kicker" role="status">
+        {state === "copied" ? "Copied" : state === "failed" ? "Copy blocked: select the text instead" : ""}
+      </span>
+    </span>
+  );
+}
+
+/** One ground's keys, set on that ground whatever the page theme is, so night and paper sit side by side. */
+function KeyPad({ ground }: { ground: "night" | "paper" }) {
+  const [presses, setPresses] = useState(0);
+  const night = ground === "night";
+  // Every key on the pad counts a press, from a pointer or from the keyboard.
+  const press = () => setPresses((n) => n + 1);
+
+  return (
+    <div data-theme={ground} className="board-pad">
+      <div className="board-pad__head">
+        <Label index={night ? "A" : "B"}>{night ? "Night" : "Paper"}</Label>
+        <div aria-live="polite">
+          <Readout label="Presses" value={String(presses).padStart(3, "0")} />
+        </div>
+      </div>
+      <div className="board-pad__row">
+        <Button variant="signal" size="lg" legend onClick={press}>
+          Start a project
+        </Button>
+        <Button size="lg" onClick={press}>
+          View the source
+        </Button>
+      </div>
+      <div className="board-pad__row">
+        <span className="sg-btn sg-btn--signal sg-btn--lg is-pressed" role="img" aria-label="The main key, held down">
+          Pressed
+          <kbd className="sg-kbd sg-kbd--legend">
+            <ReturnGlyph />
+          </kbd>
+        </span>
+        <Button size="lg" disabled>
+          Disabled
+        </Button>
+        <CopyKey size="lg" onPress={press} />
+      </div>
+      <div className="board-pad__row">
+        <Button size="sm" onClick={press}>
+          Small
+        </Button>
+        <Button onClick={press}>Medium</Button>
+        <Button size="lg" onClick={press}>
+          Large
+        </Button>
+        <Button variant="ghost" onClick={press}>
+          Ghost
+        </Button>
+      </div>
+      <p className="board-pad__note">
+        {night
+          ? "No violet keys on night. The main key is ivory and the violet is only its lit dot; every other key is graphite."
+          : "On paper the main key is violet with a white label. Every other key is ivory, icon keys too."}
+      </p>
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <>
@@ -50,6 +172,7 @@ export default function App() {
           <nav className="board-bar__nav" aria-label="Sections">
             <a href="#grounds">Grounds</a>
             <a href="#type">Type</a>
+            <a href="#keys">Keys</a>
             <a href="#controls">Controls</a>
             <a href="#start">Start</a>
           </nav>
@@ -79,13 +202,13 @@ export default function App() {
               mono labels, and motion that takes its time. It is also this starter. Clone it, and a new project looks like it
               belongs from the first commit.
             </p>
-            <div className="sg-row sg-boot" style={{ ["--i" as string]: 3 }}>
-              <a className="sg-btn sg-btn--signal sg-btn--lg" href="#start">
+            <div className="sg-row board-hero__keys sg-boot" style={{ ["--i" as string]: 3 }}>
+              <ButtonLink href="#start" variant="signal" size="lg" legend>
                 Start a project
-              </a>
-              <a className="sg-btn sg-btn--lg" href={REPO}>
+              </ButtonLink>
+              <ButtonLink href={REPO} size="lg">
                 View the source
-              </a>
+              </ButtonLink>
             </div>
           </div>
 
@@ -188,10 +311,29 @@ export default function App() {
           </div>
         </section>
 
+        {/* ---------------------------------------------------------------- keys */}
+        <section id="keys" className="sg-page board-section">
+          <div className="board-section__head">
+            <Label index="03" line>
+              Keys
+            </Label>
+            <h2 className="board-h2">Buttons are keys.</h2>
+            <p className="sg-prose">
+              Every button is a keycap on a 3px base. Rest the pointer on one and it gives a little; press it and it goes
+              down 2px. On paper the main action is a violet key. On night it turns ivory, and the violet becomes a small lit
+              LED. Both grounds are here side by side, whichever theme the page is in.
+            </p>
+          </div>
+          <div className="board-keys">
+            <KeyPad ground="night" />
+            <KeyPad ground="paper" />
+          </div>
+        </section>
+
         {/* ---------------------------------------------------------------- controls */}
         <section id="controls" className="sg-page board-section">
           <div className="board-section__head">
-            <Label index="03" line>
+            <Label index="04" line>
               Controls
             </Label>
             <h2 className="board-h2">A control surface.</h2>
@@ -218,7 +360,9 @@ export default function App() {
                 <div className="sg-stack" style={{ ["--gap" as string]: "10px" }}>
                   <Label>Buttons</Label>
                   <div className="sg-row">
-                    <Button variant="signal">Generate</Button>
+                    <Button variant="signal" legend>
+                      Generate
+                    </Button>
                     <Button>Export</Button>
                     <Button variant="ghost">Clear</Button>
                     <Button size="sm">Small</Button>
@@ -245,7 +389,7 @@ export default function App() {
         {/* ---------------------------------------------------------------- motion */}
         <section className="sg-page board-section">
           <div className="board-section__head">
-            <Label index="04" line>
+            <Label index="05" line>
               Motion
             </Label>
             <h2 className="board-h2">Things arrive. They never bounce.</h2>
@@ -283,23 +427,28 @@ export default function App() {
         {/* ---------------------------------------------------------------- start */}
         <section id="start" className="sg-page board-section">
           <div className="board-section__head">
-            <Label index="05" line>
+            <Label index="06" line>
               Start
             </Label>
             <h2 className="board-h2">Four commands.</h2>
           </div>
           <div className="board-start">
-            <pre className="sg-code">
-              <span className="sg-comment"># a new project, already in the house style</span>
-              {"\n"}
-              <span className="sg-prompt">$ </span>npx degit AliKelDev/ReactVite-Template-V2 my-app
-              {"\n"}
-              <span className="sg-prompt">$ </span>cd my-app
-              {"\n"}
-              <span className="sg-prompt">$ </span>npm install
-              {"\n"}
-              <span className="sg-prompt">$ </span>npm run dev
-            </pre>
+            <div className="board-term">
+              <div className="board-term__head">
+                <Label>Terminal</Label>
+                <CopyKey />
+              </div>
+              <pre className="sg-code">
+                <span className="sg-comment"># a new project, already in the house style</span>
+                {COMMANDS.map((line) => (
+                  <span key={line}>
+                    {"\n"}
+                    <span className="sg-prompt">$ </span>
+                    {line}
+                  </span>
+                ))}
+              </pre>
+            </div>
             <ul className="board-files">
               {FILES.map(([file, what]) => (
                 <li key={file}>

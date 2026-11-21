@@ -115,6 +115,11 @@
   gap: var(--s-5);
 }
 
+/* Keys stand on a 3px base, so wrapped rows get a little more air than plain buttons did. */
+.board-hero__keys {
+  gap: 14px 12px;
+}
+
 .board-scope__screen {
   padding: var(--s-4);
 }
@@ -233,6 +238,77 @@
   letter-spacing: var(--track-label);
 }
 
+/* Keys: one pad per ground, each carrying its own theme so both show at once. */
+.board-keys {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+
+.board-pad {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  padding: clamp(20px, 3vw, 34px);
+  border: 1px solid var(--line);
+  border-radius: var(--r-3);
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.board-pad__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+.board-pad__head .sg-readout {
+  align-items: flex-end;
+}
+
+.board-pad__head .sg-readout__value {
+  font-size: 1.9rem;
+}
+
+.board-pad__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 12px;
+}
+
+.board-pad__note {
+  max-width: 48ch;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--fg-2);
+}
+
+.board-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.board-term {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.board-term__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.board-term__head .board-copy {
+  flex-direction: row-reverse;
+}
+
 .board-surface__grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -342,7 +418,8 @@
 @media (max-width: 960px) {
   .board-hero,
   .board-start,
-  .board-surface__grid {
+  .board-surface__grid,
+  .board-keys {
     grid-template-columns: 1fr;
   }
 
