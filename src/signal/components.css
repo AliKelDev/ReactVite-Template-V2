@@ -161,80 +161,245 @@
   border-right-width: 1px;
 }
 
-/* ------------------------------------------------------------------ buttons */
+/* ------------------------------------------------------------------ keys */
 
+/*
+  Buttons are keys: a keycap standing on a 3px base. A pointer resting on one sinks it 1px; pressing pushes it
+  2px down onto a 1px base, with a soft shadow inside. The materials come from the --signal-key-* tokens, so each
+  ground (and each product) sets its own; size and spacing live here.
+
+  sg-btn            every other button: an ivory key on paper, a graphite key on night
+  sg-btn--signal    the main action: a violet key on paper, an ivory key with a lit violet LED on night
+  sg-btn--ghost     flush with the panel, for quiet actions
+  sg-btn--sm, --lg  34px and 50px keys (the default is 42px)
+  sg-btn--icon      a square key for one icon; give it an aria-label
+  is-pressed        shows the pressed state, for example while a keyboard shortcut for the key is held
+*/
 .sg-btn {
-  --btn-h: 40px;
+  /* size (medium). Padding and gap follow the ground's density tokens: night keys sit a little tighter. */
+  --key-h: 42px;
+  --key-pad: calc(var(--signal-key-pad) - 4px);
+  --key-gap: calc(var(--signal-key-gap) - 2px);
+  --key-font: var(--text-sm);
+  --key-scale: 0.84;
+  --key-legend: 26px;
+  --key-legend-pad: 6px;
+  --key-legend-font: var(--text-2xs);
+  --key-icon: 16px;
+  --key-r: calc(var(--signal-key-radius) * var(--key-scale));
+
+  /* material: the plain key, unless a variant says otherwise */
+  --key-face: var(--signal-key-face);
+  --key-face-pressed: var(--signal-key-face-pressed);
+  --key-border: var(--signal-key-border);
+  --key-ink: var(--signal-key-ink);
+  --key-ink-shadow: none;
+  --key-edge: var(--signal-key-edge);
+  --key-sink: var(--signal-key-sink);
+  --key-base: var(--signal-key-base);
+  --key-drop: var(--signal-key-drop);
+  --key-legend-face: var(--signal-key-legend);
+  --key-legend-edge: var(--signal-key-legend-edge);
+
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  height: var(--btn-h);
-  padding: 0 18px;
-  border: 1px solid var(--line-2);
-  border-radius: var(--r-2);
-  background: transparent;
-  color: var(--fg);
+  gap: var(--key-gap);
+  height: var(--key-h);
+  padding: 0 var(--key-pad);
+  border: 1px solid var(--key-border);
+  border-radius: var(--key-r);
+  background: var(--key-face);
+  box-shadow: var(--key-edge), 0 var(--signal-key-depth) 0 var(--key-base), var(--key-drop);
+  color: var(--key-ink);
   font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  font-weight: 560;
-  letter-spacing: 0.01em;
+  font-size: var(--key-font);
+  font-weight: 620;
+  line-height: 1;
   text-decoration: none;
+  text-shadow: var(--key-ink-shadow);
   white-space: nowrap;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  /* A key comes back up at an easy pace; going down is near instant (see the pressed state). */
   transition:
-    border-color var(--t-fast) var(--ease-out),
-    background-color var(--t-fast) var(--ease-out),
-    box-shadow var(--t-mid) var(--ease-out),
-    transform var(--t-fast) var(--ease-out);
-}
-
-.sg-btn:hover {
-  border-color: var(--fg-3);
-  background: var(--raised);
-}
-
-.sg-btn:active {
-  transform: translateY(1px);
-}
-
-.sg-btn:disabled,
-.sg-btn[aria-disabled="true"] {
-  opacity: 0.45;
-  pointer-events: none;
-}
-
-.sg-btn--signal {
-  border-color: transparent;
-  background: var(--signal-fill);
-  color: var(--on-signal);
-}
-
-.sg-btn--signal:hover {
-  border-color: transparent;
-  background: var(--signal-fill);
-  box-shadow: 0 0 0 4px var(--signal-soft), 0 0 28px var(--signal-glow);
-}
-
-.sg-btn--ghost {
-  border-color: transparent;
+    transform var(--t-fast) var(--ease-out),
+    box-shadow var(--t-fast) var(--ease-out);
 }
 
 .sg-btn--sm {
-  --btn-h: 32px;
-  padding: 0 12px;
-  font-size: var(--text-xs);
+  --key-h: 34px;
+  --key-pad: calc(var(--signal-key-pad) - 10px);
+  --key-gap: calc(var(--signal-key-gap) - 4px);
+  --key-font: var(--text-xs);
+  --key-scale: 0.68;
+  --key-legend: 22px;
+  --key-legend-pad: 5px;
+  --key-legend-font: 10px;
+  --key-icon: 14px;
 }
 
 .sg-btn--lg {
-  --btn-h: 48px;
-  padding: 0 24px;
-  font-size: var(--text-md);
+  --key-h: 50px;
+  --key-pad: var(--signal-key-pad);
+  --key-gap: var(--signal-key-gap);
+  --key-font: var(--text-md);
+  --key-scale: 1;
+  --key-legend: 30px;
+  --key-legend-pad: 7px;
+  --key-legend-font: var(--text-xs);
+  --key-icon: 18px;
 }
 
 .sg-btn--icon {
-  width: var(--btn-h);
+  width: var(--key-h);
   padding: 0;
+}
+
+.sg-btn > svg {
+  flex: none;
+  width: var(--key-icon);
+  height: var(--key-icon);
+}
+
+/* A legend chip sits as far from the right edge as from the top and bottom. */
+.sg-btn:has(> .sg-kbd--legend) {
+  padding-inline-end: calc((var(--key-h) - var(--key-legend)) / 2);
+}
+
+.sg-btn--signal {
+  --key-face: var(--signal-key-primary-face);
+  --key-face-pressed: var(--signal-key-primary-face-pressed);
+  --key-border: var(--signal-key-primary-border);
+  --key-ink: var(--signal-key-primary-ink);
+  --key-ink-shadow: var(--signal-key-primary-ink-shadow);
+  --key-edge: var(--signal-key-primary-edge);
+  --key-sink: var(--signal-key-primary-sink);
+  --key-base: var(--signal-key-primary-base);
+  --key-drop: var(--signal-key-primary-drop);
+  --key-legend-face: var(--signal-key-primary-legend);
+  --key-legend-edge: var(--signal-key-primary-legend-edge);
+}
+
+/* The LED: on night the main key carries a small lit violet dot instead of a violet fill. */
+.sg-btn--signal::before {
+  content: "";
+  display: var(--signal-key-led-display, none);
+  flex: none;
+  width: calc(var(--signal-key-led-size) * var(--key-scale));
+  height: calc(var(--signal-key-led-size) * var(--key-scale));
+  /* 18px in from the edge and 8px from the label on a full-size key, whatever the padding and gap. */
+  margin-inline: calc(18px * var(--key-scale) - var(--key-pad)) calc(8px * var(--key-scale) - var(--key-gap));
+  border-radius: 50%;
+  background: var(--signal-key-led);
+  box-shadow: var(--signal-key-led-halo);
+  transition:
+    background-color var(--t-fast) var(--ease-out),
+    box-shadow var(--t-fast) var(--ease-out);
+}
+
+/* On a square icon key the LED moves to the corner, like a caps lock light. */
+.sg-btn--icon.sg-btn--signal::before {
+  position: absolute;
+  top: calc(7px * var(--key-scale));
+  left: calc(7px * var(--key-scale));
+  width: calc(5px * var(--key-scale));
+  height: calc(5px * var(--key-scale));
+  margin: 0;
+}
+
+.sg-btn--ghost {
+  --key-face: transparent;
+  --key-face-pressed: color-mix(in srgb, var(--fg) 9%, transparent);
+  --key-border: transparent; /* stays: forced-colours mode draws it */
+  --key-ink: var(--fg);
+  --key-edge: inset 0 0 0 transparent, inset 0 0 0 transparent;
+  --key-sink: inset 0 1px 2px rgb(0 0 0 / 0.18);
+  --key-base: transparent;
+  --key-drop: 0 0 0 transparent;
+}
+
+/* Keyboard focus: a crisp ring around the cap, clear of the base. Physical, not a glow. */
+.sg-btn:focus-visible {
+  outline: 2px solid var(--signal-key-ring);
+  outline-offset: 4px;
+  border-radius: var(--key-r);
+}
+
+/* Hover rests a finger on the key: it gives 1px. Pointer devices only, so taps never leave a key half down. */
+@media (hover: hover) {
+  .sg-btn:not(:disabled, [aria-disabled="true"], .is-pressed):hover {
+    transform: translateY(1px);
+    box-shadow: var(--key-edge), 0 calc(var(--signal-key-depth) - 1px) 0 var(--key-base), var(--key-drop);
+  }
+
+  .sg-btn--ghost:not(:disabled, [aria-disabled="true"], .is-pressed):hover {
+    transform: none;
+    background: color-mix(in srgb, var(--fg) 5%, transparent);
+  }
+}
+
+/* Pressed: 2px down, the base shrinks to 1px, a soft shadow inside. The shadow lists keep the same shape at rest
+   and pressed (inset, inset, base, drop) so the key glides between them. */
+.sg-btn:not(:disabled, [aria-disabled="true"]):active,
+.sg-btn.is-pressed {
+  transform: translateY(calc(var(--signal-key-depth) - var(--signal-key-depth-pressed)));
+  background: var(--key-face-pressed);
+  box-shadow: var(--key-sink), inset 0 0 0 transparent, 0 var(--signal-key-depth-pressed) 0 var(--key-base), 0 0 0 transparent;
+  transition-duration: 40ms;
+}
+
+.sg-btn:not(:disabled, [aria-disabled="true"]):active > .sg-kbd--legend,
+.sg-btn.is-pressed > .sg-kbd--legend {
+  box-shadow: none;
+}
+
+.sg-btn--signal:not(:disabled, [aria-disabled="true"]):active::before,
+.sg-btn--signal.is-pressed::before {
+  background: var(--signal-key-led-lit);
+  box-shadow: var(--signal-key-led-lit-halo);
+}
+
+/* Disabled: a flat, unlit key that does not move. */
+.sg-btn:disabled,
+.sg-btn[aria-disabled="true"] {
+  --key-face: var(--signal-key-off-face);
+  --key-border: var(--signal-key-off-border);
+  --key-ink: var(--signal-key-off-ink);
+  --key-ink-shadow: none;
+  --key-edge: inset 0 0 0 transparent, inset 0 0 0 transparent;
+  --key-base: var(--signal-key-off-base);
+  --key-drop: 0 0 0 transparent;
+  --key-legend-face: transparent;
+  --key-legend-edge: inset 0 0 0 1px var(--signal-key-off-border), inset 0 0 0 transparent;
+  cursor: not-allowed;
+}
+
+.sg-btn--ghost:disabled,
+.sg-btn--ghost[aria-disabled="true"] {
+  --key-face: transparent;
+  --key-border: transparent;
+  --key-base: transparent;
+}
+
+.sg-btn--signal:disabled::before,
+.sg-btn--signal[aria-disabled="true"]::before {
+  background: var(--line-2);
+  box-shadow: none;
+}
+
+a.sg-btn[aria-disabled="true"] {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The key still shows where it is, it just gets there without moving through the frames in between. */
+  .sg-btn,
+  .sg-btn::before,
+  .sg-btn > .sg-kbd--legend {
+    transition: none;
+  }
 }
 
 /* ------------------------------------------------------------------ fields */
@@ -429,6 +594,31 @@
   line-height: 1.5;
   text-align: center;
   color: var(--fg-2);
+}
+
+/* A key's legend: the small chip printed on a key, like the return symbol on the main action. */
+.sg-kbd--legend {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  /* A small landscape keycap: 44 x 30 on a full-size key. */
+  height: var(--key-legend, 30px);
+  min-width: calc(var(--key-legend, 30px) + 2 * var(--key-legend-pad, 7px));
+  padding: 0 var(--key-legend-pad, 7px);
+  border: 0;
+  border-radius: calc(var(--key-r, 11px) * 0.64);
+  background: var(--key-legend-face, var(--signal-key-legend));
+  box-shadow: var(--key-legend-edge, var(--signal-key-legend-edge));
+  font-size: var(--key-legend-font, var(--text-xs));
+  font-weight: 500;
+  line-height: 1;
+  color: inherit;
+  transition: box-shadow var(--t-fast) var(--ease-out);
+}
+
+.sg-kbd--legend svg {
+  width: 1em;
+  height: 1em;
 }
 
 /* A hairline with a label in the middle. */

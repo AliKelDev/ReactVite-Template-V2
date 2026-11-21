@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, CSSProperties, ElementType, HTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, CSSProperties, ElementType, HTMLAttributes, ReactNode } from "react";
 import { useId, useMemo } from "react";
 import { useTheme } from "./theme";
 
@@ -43,29 +43,67 @@ export function Panel({ as: Tag = "section", marks, variant = "raised", classNam
   );
 }
 
-/* ------------------------------------------------------------------ button */
+/* ------------------------------------------------------------------ keys */
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+type KeyProps = {
+  /** "signal" is the main action: violet on paper, ivory with a lit LED on night. "ghost" sits flush with the panel. */
   variant?: "default" | "signal" | "ghost";
+  /** sm 34px, md 42px, lg 50px. */
   size?: "sm" | "md" | "lg";
-  icon?: boolean;
+  /** A legend chip printed after the label. `true` prints the return symbol. Decorative, so screen readers skip it. */
+  legend?: ReactNode;
 };
 
-export function Button({ variant = "default", size = "md", icon, className, type = "button", ...rest }: ButtonProps) {
+/** A key with only an icon needs a name: TypeScript asks for aria-label (or aria-labelledby) when `icon` is set. */
+type IconKey = { icon: true; "aria-label": string } | { icon: true; "aria-labelledby": string } | { icon?: false };
+
+export type ButtonProps = KeyProps & IconKey & ButtonHTMLAttributes<HTMLButtonElement>;
+export type ButtonLinkProps = KeyProps & IconKey & AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
+
+function keyClass({ variant = "default", size = "md", icon }: KeyProps & { icon?: boolean }, className?: string) {
+  return cx(
+    "sg-btn",
+    variant === "signal" && "sg-btn--signal",
+    variant === "ghost" && "sg-btn--ghost",
+    size === "sm" && "sg-btn--sm",
+    size === "lg" && "sg-btn--lg",
+    icon && "sg-btn--icon",
+    className,
+  );
+}
+
+/** The return symbol, drawn so it looks the same on every system (fonts disagree about U+21B5). */
+export function ReturnGlyph() {
   return (
-    <button
-      type={type}
-      className={cx(
-        "sg-btn",
-        variant === "signal" && "sg-btn--signal",
-        variant === "ghost" && "sg-btn--ghost",
-        size === "sm" && "sg-btn--sm",
-        size === "lg" && "sg-btn--lg",
-        icon && "sg-btn--icon",
-        className,
-      )}
-      {...rest}
-    />
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M12.5 3.5v4.25a1.75 1.75 0 0 1-1.75 1.75H3.75" />
+      <path d="M6.25 7 3.75 9.5 6.25 12" />
+    </svg>
+  );
+}
+
+function keyLegend(legend: ReactNode) {
+  if (legend === undefined || legend === null || legend === false) return null;
+  return <Kbd legend>{legend === true ? <ReturnGlyph /> : legend}</Kbd>;
+}
+
+/** A button, drawn as a physical key. */
+export function Button({ variant, size, icon, legend, className, type = "button", children, ...rest }: ButtonProps) {
+  return (
+    <button type={type} className={keyClass({ variant, size, icon }, className)} {...rest}>
+      {children}
+      {keyLegend(legend)}
+    </button>
+  );
+}
+
+/** A link that looks like a key, for actions that go somewhere: <ButtonLink href="#start" variant="signal" legend>. */
+export function ButtonLink({ variant, size, icon, legend, className, children, ...rest }: ButtonLinkProps) {
+  return (
+    <a className={keyClass({ variant, size, icon }, className)} {...rest}>
+      {children}
+      {keyLegend(legend)}
+    </a>
   );
 }
 
@@ -112,8 +150,16 @@ export function Tag({ children, signal }: { children: ReactNode; signal?: boolea
   return <span className={cx("sg-tag", signal && "sg-tag--signal")}>{children}</span>;
 }
 
-export function Kbd({ children }: { children: ReactNode }) {
-  return <kbd className="sg-kbd">{children}</kbd>;
+/**
+ * A key named in running text: <Kbd>Ctrl</Kbd>. With `legend` it becomes the chip printed on a Button
+ * (Button's `legend` prop does this for you); a legend is decorative and hidden from screen readers.
+ */
+export function Kbd({ children, legend }: { children: ReactNode; legend?: boolean }) {
+  return (
+    <kbd className={cx("sg-kbd", legend && "sg-kbd--legend")} aria-hidden={legend || undefined}>
+      {children}
+    </kbd>
+  );
 }
 
 export function Rule({ children }: { children?: ReactNode }) {
