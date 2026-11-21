@@ -437,9 +437,10 @@ a.sg-btn[aria-disabled="true"] {
   font-size: var(--text-sm);
 }
 
+/* Placeholders are text people read, so they take the label grey (4.5:1 or more), still well below what is typed. */
 .sg-input::placeholder,
 .sg-textarea::placeholder {
-  color: var(--fg-4);
+  color: var(--fg-3);
 }
 
 .sg-input:focus,
@@ -672,7 +673,7 @@ a.sg-btn[aria-disabled="true"] {
   font-size: var(--text-2xs);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
-  color: var(--fg-4);
+  color: var(--fg-3);
 }
 
 .sg-rule::before,
@@ -704,8 +705,9 @@ a.sg-btn[aria-disabled="true"] {
   user-select: none;
 }
 
+/* Comments sit a step below the code (--fg-2) but stay readable: --fg-4 is for marks and unlit lights, never for text. */
 .sg-code .sg-comment {
-  color: var(--fg-4);
+  color: var(--fg-3);
 }
 
 /* ------------------------------------------------------------------ motion */
