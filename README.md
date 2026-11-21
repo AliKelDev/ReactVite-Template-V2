@@ -86,7 +86,7 @@ Keep the edge as two inset shadows, the sink as one and the drop as one outer sh
 - **Status is a light.** Green, amber and red appear as LEDs, never as decoration.
 - **The orbit.** A thin glowing arc with an orb drifting along it is the quiet background motif, after the Alikel channel banner.
 - **Things arrive, they never bounce.** One decelerating curve, unhurried durations, and every animation stops for people who ask their system for less motion.
-- **Contrast is not optional.** Violet text on paper uses `--signal-text` (an ink violet, 6:1); the violet key keeps its white label at 4.6:1 or better across its whole gradient.
+- **Contrast is not optional.** Violet text on paper uses `--signal-text` (an ink violet, 6:1); the violet key keeps its white label at 4.6:1 or better across its whole gradient. Labels, kickers and hints use `--fg-3`, which is at least 4.7:1 on every surface of both grounds.
 
 ## Fonts
 

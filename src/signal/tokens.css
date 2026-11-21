@@ -165,7 +165,8 @@
   --sunken: var(--paper-2);
   --fg: var(--ink-0);
   --fg-2: var(--ink-2);
-  --fg-3: var(--ink-3);
+  /* Labels, kickers and hints: 5.3:1 on the paper ground, 4.7:1 on sunken. --ink-3 is lighter, for quiet things nobody has to read, like a disabled key. */
+  --fg-3: #666156;
   --fg-4: #aaa395;
   --line: #ddd6c7;
   --line-2: #cbc2af;
@@ -229,7 +230,7 @@
     --sunken: var(--paper-2);
     --fg: var(--ink-0);
     --fg-2: var(--ink-2);
-    --fg-3: var(--ink-3);
+    --fg-3: #666156;
     --fg-4: #aaa395;
     --line: #ddd6c7;
     --line-2: #cbc2af;
