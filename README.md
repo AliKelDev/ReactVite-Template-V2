@@ -38,7 +38,7 @@ Every button is a keycap standing on a 3px base. Resting the pointer on one sink
 | `variant="ghost"` | Flush with the panel; a shallow well on hover | The same |
 | `disabled` | Flat and quiet; it does not move | Flat, the LED unlit; it does not move |
 
-On night there are no violet fills: the violet is only the lit dot.
+On night there are no violet fills: the violet is only the lit dot. The switch follows the same rule: on night, "on" is a bone knob with that lit dot on a graphite track; on paper it is a violet knob.
 
 ```tsx
 import { Button, ButtonLink } from "./signal";
@@ -67,6 +67,7 @@ import { Button, ButtonLink } from "./signal";
 | `--signal-key-off-*`, `--signal-key-ring` | The disabled key, and the focus ring |
 | `--signal-key-pad`, `--signal-key-gap` | Density at full size: night keys sit a little tighter (20px and 8px) than paper keys (22px and 12px) |
 | `--signal-key-radius`, `--signal-key-depth`, `--signal-key-depth-pressed`, `--signal-key-led-size` | The shared shape: 11px corners, a 3px base, 1px left when pressed, a 7px LED |
+| `--signal-switch-on-track`, `-on-border`, `-on-knob`, `-on-knob-shadow`, `--signal-switch-led-display` | The switch when it is on: a violet knob on a violet-tinted track on paper; a graphite track and a bone knob with the lit LED on night (`block` on night, `none` on paper) |
 
 ```css
 /* Squarer keys everywhere */

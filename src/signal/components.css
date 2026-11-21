@@ -487,18 +487,60 @@ a.sg-btn[aria-disabled="true"] {
   height: calc(var(--h) - 8px);
   border-radius: 50%;
   background: var(--fg-2);
-  transition: transform var(--t-mid) var(--ease-out), background-color var(--t-mid) var(--ease-out);
+  transition:
+    transform var(--t-mid) var(--ease-out),
+    background-color var(--t-mid) var(--ease-out),
+    box-shadow var(--t-mid) var(--ease-out);
 }
 
+/* On is set per ground by the --signal-switch-on-* tokens: violet on paper; on night a bone knob with a lit LED. */
 .sg-switch[aria-checked="true"] .sg-switch__track {
-  border-color: var(--signal);
-  background: var(--signal-soft);
+  border-color: var(--signal-switch-on-border);
+  background: var(--signal-switch-on-track);
 }
 
 .sg-switch[aria-checked="true"] .sg-switch__knob {
   transform: translateX(calc(var(--w) - var(--h)));
-  background: var(--signal);
-  box-shadow: 0 0 10px var(--signal-glow);
+  background: var(--signal-switch-on-knob);
+  box-shadow: var(--signal-switch-on-knob-shadow);
+}
+
+/* The LED on the knob, the same light as on the main key. It only exists where the ground asks for it (night). */
+.sg-switch__knob::after {
+  content: "";
+  display: var(--signal-switch-led-display, none);
+  position: absolute;
+  inset: 0;
+  width: 6px;
+  height: 6px;
+  margin: auto;
+  border-radius: 50%;
+  background: var(--signal-key-led);
+  box-shadow: var(--signal-key-led-halo);
+  opacity: 0;
+  transition: opacity var(--t-mid) var(--ease-out);
+}
+
+.sg-switch[aria-checked="true"] .sg-switch__knob::after {
+  opacity: 1;
+}
+
+/* When the system draws its own colours, keep the knob visible: its place is what shows the state. */
+@media (forced-colors: active) {
+  .sg-switch__knob {
+    forced-color-adjust: none;
+    background: CanvasText;
+    box-shadow: none;
+  }
+
+  .sg-switch[aria-checked="true"] .sg-switch__knob {
+    background: Highlight;
+    box-shadow: none;
+  }
+
+  .sg-switch__knob::after {
+    display: none;
+  }
 }
 
 /* ------------------------------------------------------------------ indicators */
