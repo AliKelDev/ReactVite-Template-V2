@@ -206,14 +206,14 @@
 
 .sg-btn--signal {
   border-color: transparent;
-  background: var(--signal);
+  background: var(--signal-fill);
   color: var(--on-signal);
 }
 
 .sg-btn--signal:hover {
   border-color: transparent;
-  background: var(--signal);
-  box-shadow: 0 0 0 4px var(--amber-soft), 0 0 28px var(--amber-glow);
+  background: var(--signal-fill);
+  box-shadow: 0 0 0 4px var(--signal-soft), 0 0 28px var(--signal-glow);
 }
 
 .sg-btn--ghost {
@@ -282,7 +282,7 @@
 .sg-select:focus {
   outline: none;
   border-color: var(--signal);
-  box-shadow: 0 0 0 4px var(--amber-soft);
+  box-shadow: 0 0 0 4px var(--signal-soft);
 }
 
 /* ------------------------------------------------------------------ switch */
@@ -327,13 +327,13 @@
 
 .sg-switch[aria-checked="true"] .sg-switch__track {
   border-color: var(--signal);
-  background: var(--amber-soft);
+  background: var(--signal-soft);
 }
 
 .sg-switch[aria-checked="true"] .sg-switch__knob {
   transform: translateX(calc(var(--w) - var(--h)));
   background: var(--signal);
-  box-shadow: 0 0 10px var(--amber-glow);
+  box-shadow: 0 0 10px var(--signal-glow);
 }
 
 /* ------------------------------------------------------------------ indicators */
@@ -345,7 +345,7 @@
   height: 8px;
   border-radius: 50%;
   background: var(--signal);
-  box-shadow: 0 0 0 3px var(--amber-soft), 0 0 10px var(--amber-glow);
+  box-shadow: 0 0 0 3px var(--signal-soft), 0 0 10px var(--signal-glow);
 }
 
 .sg-led--go {
@@ -356,6 +356,11 @@
 .sg-led--stop {
   background: var(--stop);
   box-shadow: 0 0 0 3px rgb(255 106 85 / 0.14), 0 0 10px rgb(255 106 85 / 0.4);
+}
+
+.sg-led--warn {
+  background: var(--warn);
+  box-shadow: 0 0 0 3px rgb(255 154 31 / 0.14), 0 0 10px rgb(255 154 31 / 0.4);
 }
 
 .sg-led--off {
@@ -407,7 +412,7 @@
 
 .sg-tag--signal {
   border-color: transparent;
-  background: var(--amber-soft);
+  background: var(--signal-soft);
   color: var(--signal-text);
 }
 
@@ -485,6 +490,7 @@
   margin-left: 0.12em;
   vertical-align: -0.16em;
   background: var(--signal);
+  box-shadow: 0 0 8px var(--signal-glow);
   animation: sg-blink 1.1s steps(1, end) infinite;
 }
 
@@ -536,7 +542,7 @@
 
 .sg-scope__trace {
   animation: sg-scroll 9s linear infinite;
-  filter: drop-shadow(0 0 3px var(--amber-glow));
+  filter: drop-shadow(0 0 3px var(--signal-glow));
 }
 
 .sg-scope__beam {
@@ -555,5 +561,63 @@
   }
   to {
     transform: translateX(600px);
+  }
+}
+
+/* ------------------------------------------------------------------ wordmark */
+
+/* "alikel", lowercase, with the signal dot on the i. Markup: <span class="sg-wordmark">al<span class="sg-wordmark__i">ı</span>kel</span> */
+.sg-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  font-weight: 760;
+  font-stretch: 100%;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.sg-wordmark__i {
+  position: relative;
+}
+
+.sg-wordmark__i::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -0.02em;
+  width: 0.26em;
+  height: 0.26em;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: var(--signal);
+  box-shadow: 0 0 0.35em var(--signal-glow);
+}
+
+/* ------------------------------------------------------------------ orbit */
+
+/* A thin glowing arc with an orb drifting along it: the house's quiet background motif. */
+.sg-orbit {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sg-orbit svg {
+  width: 100%;
+  height: 100%;
+}
+
+.sg-orbit__orb {
+  offset-rotate: 0deg;
+  animation: sg-orbit 38s linear infinite;
+}
+
+@keyframes sg-orbit {
+  from {
+    offset-distance: 8%;
+  }
+  to {
+    offset-distance: 92%;
   }
 }

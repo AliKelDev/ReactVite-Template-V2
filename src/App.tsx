@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Button, Field, Kbd, Label, Led, Panel, Readout, Rule, Scope, Tag, ThemeSwitch } from "./signal";
+import { Button, Field, Kbd, Label, Led, Orbit, Panel, Readout, Rule, Scope, Tag, ThemeSwitch, Wordmark } from "./signal";
 
 const REPO = "https://github.com/AliKelDev/ReactVite-Template-V2";
 
 const GROUNDS = [
   { name: "Night", hex: "#0B0A08", role: "The ground for tools you use for hours.", swatch: "var(--night-0)", ink: "var(--bone-0)" },
   { name: "Paper", hex: "#F2EEE5", role: "The ground for reading, and for print.", swatch: "var(--paper-1)", ink: "var(--ink-0)" },
-  { name: "Amber", hex: "#FF9A1F", role: "The only colour that asks for your attention.", swatch: "var(--amber)", ink: "#170d00" },
+  { name: "Violet", hex: "#9B7BFF", role: "The only colour that asks for your attention.", swatch: "var(--violet)", ink: "#0e0a1f" },
   { name: "Bone", hex: "#EFEADF", role: "Text on night. Never pure white.", swatch: "var(--bone-0)", ink: "var(--ink-0)" },
 ];
 
@@ -44,11 +44,8 @@ export default function App() {
       <header className="board-bar">
         <div className="sg-page board-bar__inner">
           <a className="board-mark" href="#top" aria-label="Alikel Signal, home">
-            <span className="board-mark__glyph" aria-hidden>
-              <span />
-            </span>
-            <span className="board-mark__name">Alikel</span>
-            <span className="board-mark__sub">/ Signal</span>
+            <Wordmark className="board-mark__word" />
+            <span className="board-mark__sub">/ signal</span>
           </a>
           <nav className="board-bar__nav" aria-label="Sections">
             <a href="#grounds">Grounds</a>
@@ -65,6 +62,8 @@ export default function App() {
 
       <main id="top">
         {/* ---------------------------------------------------------------- hero */}
+        <div className="board-hero-wrap">
+        <Orbit />
         <section className="sg-page board-hero">
           <div className="board-hero__copy">
             <span className="sg-boot" style={{ ["--i" as string]: 0 }}>
@@ -76,7 +75,7 @@ export default function App() {
               Built like <em>instruments.</em>
             </h1>
             <p className="sg-lede sg-boot" style={{ ["--i" as string]: 2 }}>
-              Signal is the house style for everything Alikel makes: warm paper and deep night, one amber signal, hairlines,
+              Signal is the house style for everything Alikel makes: warm paper and deep night, one violet signal, hairlines,
               mono labels, and motion that takes its time. It is also this starter. Clone it, and a new project looks like it
               belongs from the first commit.
             </p>
@@ -108,6 +107,7 @@ export default function App() {
             </div>
           </Panel>
         </section>
+        </div>
 
         {/* ---------------------------------------------------------------- grounds */}
         <section id="grounds" className="sg-page board-section">
@@ -117,7 +117,7 @@ export default function App() {
             </Label>
             <h2 className="board-h2">Two grounds, one signal.</h2>
             <p className="sg-prose">
-              Night for tools, paper for reading. Amber is used once per screen, for the thing that matters most: the main
+              Night for tools, paper for reading. Violet is used once per screen, for the thing that matters most: the main
               action, a live indicator, the index of a section. Everything else stays quiet.
             </p>
           </div>
@@ -140,6 +140,9 @@ export default function App() {
             </span>
             <span className="sg-row">
               <Led /> Signal
+            </span>
+            <span className="sg-row">
+              <Led state="warn" /> Warn
             </span>
             <span className="sg-row">
               <Led state="stop" /> Stop

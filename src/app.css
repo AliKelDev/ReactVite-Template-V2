@@ -41,7 +41,11 @@
   height: 6px;
   border-radius: 50%;
   background: var(--signal);
-  box-shadow: 0 0 8px var(--amber-glow);
+  box-shadow: 0 0 8px var(--signal-glow);
+}
+
+.board-mark__word {
+  font-size: 1.32rem;
 }
 
 .board-mark__name {
@@ -77,6 +81,20 @@
 }
 
 /* ------------------------------------------------------------------ hero */
+
+.board-hero-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.board-hero-wrap .sg-orbit {
+  opacity: 0.9;
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+
+[data-theme="paper"] .board-hero-wrap .sg-orbit {
+  opacity: 0.55;
+}
 
 .board-hero {
   display: grid;

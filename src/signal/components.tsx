@@ -85,7 +85,7 @@ export function Field({ label, hint, children, htmlFor }: { label: string; hint?
 
 /* ------------------------------------------------------------------ indicators */
 
-export function Led({ state = "signal", live, label }: { state?: "signal" | "go" | "stop" | "off"; live?: boolean; label?: string }) {
+export function Led({ state = "signal", live, label }: { state?: "signal" | "go" | "warn" | "stop" | "off"; live?: boolean; label?: string }) {
   return (
     <span
       className={cx("sg-led", state !== "signal" && `sg-led--${state}`, live && "is-live")}
@@ -194,5 +194,62 @@ export function Scope({ height = 220, style }: { height?: number; style?: CSSPro
         <rect className="sg-scope__beam" x="0" y="0" width="120" height={height} fill={`url(#beam-${id})`} />
       </g>
     </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ wordmark */
+
+/** "alikel" in lowercase with the signal dot on the i (a dotless i plus a drawn dot). */
+export function Wordmark({ className }: { className?: string }) {
+  return (
+    <span className={cx("sg-wordmark", className)} aria-label="alikel" role="img">
+      <span aria-hidden>al</span>
+      <span className="sg-wordmark__i" aria-hidden>
+        {"\u0131"}
+      </span>
+      <span aria-hidden>kel</span>
+    </span>
+  );
+}
+
+/* ------------------------------------------------------------------ orbit */
+
+/**
+ * A large, thin, glowing arc crossing the area with an orb drifting slowly along it, after the Alikel channel banner.
+ * Place it inside a position: relative container; it fills it and ignores the pointer.
+ */
+export function Orbit({ className }: { className?: string }) {
+  const id = useId().replace(/:/g, "");
+  // One big circle whose arc enters at the top left and leaves at the bottom right of a 1200 x 600 box.
+  const arc = "M -80 40 A 1100 1100 0 0 0 1280 560";
+  const far = "M 860 -40 A 900 900 0 0 0 1300 420";
+  return (
+    <div className={cx("sg-orbit", className)} aria-hidden>
+      <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id={`arc-${id}`} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="var(--signal)" stopOpacity="0" />
+            <stop offset="0.25" stopColor="var(--signal)" stopOpacity="0.9" />
+            <stop offset="0.7" stopColor="var(--signal)" stopOpacity="0.55" />
+            <stop offset="1" stopColor="var(--signal)" stopOpacity="0" />
+          </linearGradient>
+          <radialGradient id={`orb-${id}`} cx="0.38" cy="0.35" r="0.65">
+            <stop offset="0" stopColor="#ffffff" stopOpacity="0.95" />
+            <stop offset="0.35" stopColor="var(--signal)" stopOpacity="0.95" />
+            <stop offset="1" stopColor="var(--signal-fill)" stopOpacity="0.9" />
+          </radialGradient>
+          <filter id={`glow-${id}`} x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="6" />
+          </filter>
+        </defs>
+        <path d={arc} fill="none" stroke="var(--signal)" strokeOpacity="0.35" strokeWidth="10" filter={`url(#glow-${id})`} />
+        <path d={arc} fill="none" stroke={`url(#arc-${id})`} strokeWidth="1.4" />
+        <path d={far} fill="none" stroke="var(--signal)" strokeOpacity="0.28" strokeWidth="1" />
+        <g className="sg-orbit__orb" style={{ offsetPath: `path("${arc}")` }}>
+          <circle r="26" fill="var(--signal)" opacity="0.25" filter={`url(#glow-${id})`} />
+          <circle r="15" fill={`url(#orb-${id})`} />
+        </g>
+      </svg>
+    </div>
   );
 }

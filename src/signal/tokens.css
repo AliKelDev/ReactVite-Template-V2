@@ -1,7 +1,7 @@
 /*
   Signal, the Alikel house style. Tokens.
 
-  Two grounds (night and paper), one signal colour (phosphor amber), hairlines, mono labels.
+  Two grounds (night and paper), one signal colour (violet), hairlines, mono labels.
   Everything else in the system reads these variables, so a project can change its whole
   feel by overriding a handful of them.
 */
@@ -23,10 +23,15 @@
   --bone-2: #8d877b;
   --bone-3: #5f5a51;
 
+  /* Violet is the house signal (Jordan's colour: the dot on the i, the orb on the orbit). */
+  --violet: #9b7bff; /* luminous: lights, glows, indexes on night */
+  --violet-fill: #7351f2; /* buttons, with white text (5:1) */
+  --violet-ink: #5a35d6; /* text on paper (6:1) */
+  --violet-soft: rgb(155 123 255 / 0.14);
+  --violet-glow: rgb(155 123 255 / 0.42);
+  /* Amber is the warning light only. */
   --amber: #ff9a1f;
-  --amber-ink: #9a5200; /* amber that passes contrast as text on paper */
-  --amber-soft: rgb(255 154 31 / 0.13);
-  --amber-glow: rgb(255 154 31 / 0.38);
+  --amber-ink: #9a5200;
   --go: #7be495;
   --go-ink: #1d6b3c;
   --stop: #ff6a55;
@@ -92,10 +97,15 @@
   --fg-4: var(--bone-3);
   --line: #27241e;
   --line-2: #3a362d;
-  --signal: var(--amber);
-  --signal-text: var(--amber);
-  --signal-display: var(--amber); /* large type: 3:1 is enough */
-  --on-signal: #170d00;
+  --signal: var(--violet);
+  --signal-fill: var(--violet-fill);
+  --signal-text: var(--violet);
+  --signal-display: var(--violet);
+  --signal-soft: var(--violet-soft);
+  --signal-glow: var(--violet-glow);
+  --on-signal: #ffffff;
+  --warn: var(--amber);
+  --warn-text: var(--amber);
   --go-text: var(--go);
   --stop-text: var(--stop);
   --grid: rgb(239 234 223 / 0.035);
@@ -114,10 +124,15 @@
   --fg-4: #aaa395;
   --line: #ddd6c7;
   --line-2: #cbc2af;
-  --signal: var(--amber);
-  --signal-text: var(--amber-ink);
-  --signal-display: #c46a00;
-  --on-signal: #170d00;
+  --signal: #6a45f0;
+  --signal-fill: var(--violet-fill);
+  --signal-text: var(--violet-ink);
+  --signal-display: #6a45f0;
+  --signal-soft: rgb(106 69 240 / 0.1);
+  --signal-glow: rgb(106 69 240 / 0.28);
+  --on-signal: #ffffff;
+  --warn: var(--amber);
+  --warn-text: var(--amber-ink);
   --go-text: var(--go-ink);
   --stop-text: var(--stop-ink);
   --grid: rgb(22 21 15 / 0.045);
@@ -138,8 +153,12 @@
     --fg-4: #aaa395;
     --line: #ddd6c7;
     --line-2: #cbc2af;
-    --signal-text: var(--amber-ink);
-    --signal-display: #c46a00;
+    --signal: #6a45f0;
+    --signal-text: var(--violet-ink);
+    --signal-display: #6a45f0;
+    --signal-soft: rgb(106 69 240 / 0.1);
+    --signal-glow: rgb(106 69 240 / 0.28);
+    --warn-text: var(--amber-ink);
     --go-text: var(--go-ink);
     --stop-text: var(--stop-ink);
     --grid: rgb(22 21 15 / 0.045);
