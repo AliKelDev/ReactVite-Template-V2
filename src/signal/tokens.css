@@ -1,0 +1,147 @@
+/*
+  Signal, the Alikel house style. Tokens.
+
+  Two grounds (night and paper), one signal colour (phosphor amber), hairlines, mono labels.
+  Everything else in the system reads these variables, so a project can change its whole
+  feel by overriding a handful of them.
+*/
+
+:root {
+  /* Raw palette */
+  --paper-0: #fbf8f1;
+  --paper-1: #f2eee5;
+  --paper-2: #e7e1d3;
+  --ink-0: #16150f;
+  --ink-2: #57534a;
+  --ink-3: #85806f;
+  --night-0: #0b0a08;
+  --night-1: #12110e;
+  --night-2: #1a1814;
+  --night-3: #24211b;
+  --bone-0: #efeadf;
+  --bone-1: #b9b3a6;
+  --bone-2: #8d877b;
+  --bone-3: #5f5a51;
+
+  --amber: #ff9a1f;
+  --amber-ink: #9a5200; /* amber that passes contrast as text on paper */
+  --amber-soft: rgb(255 154 31 / 0.13);
+  --amber-glow: rgb(255 154 31 / 0.38);
+  --go: #7be495;
+  --go-ink: #1d6b3c;
+  --stop: #ff6a55;
+  --stop-ink: #a8301f;
+
+  /* Type */
+  --font-sans: "Archivo Variable", "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-pixel: "VT323", "IBM Plex Mono", ui-monospace, monospace;
+  --wide: 125%; /* font-stretch for display type: the retro-futurist width */
+
+  --text-2xs: 0.6875rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --display-1: clamp(2.5rem, 1.25rem + 5.2vw, 5.6rem);
+  --display-2: clamp(1.85rem, 1.15rem + 2.6vw, 3.2rem);
+  --display-3: clamp(1.3rem, 1.05rem + 1vw, 1.85rem);
+  --track-label: 0.16em;
+
+  /* Space, on a 4px base */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 72px;
+  --s-9: 112px;
+
+  /* Shape */
+  --r-1: 4px;
+  --r-2: 8px;
+  --r-3: 14px;
+  --r-pill: 999px;
+
+  /* Motion: slow, deliberate, never bouncy */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --t-fast: 140ms;
+  --t-mid: 320ms;
+  --t-slow: 760ms;
+
+  /* Layout */
+  --page: 1180px;
+  --measure: 66ch;
+}
+
+/* Night is the default ground. */
+:root,
+[data-theme="night"] {
+  color-scheme: dark;
+  --bg: var(--night-0);
+  --surface: var(--night-1);
+  --raised: var(--night-2);
+  --sunken: #070605;
+  --fg: var(--bone-0);
+  --fg-2: var(--bone-1);
+  --fg-3: var(--bone-2);
+  --fg-4: var(--bone-3);
+  --line: #27241e;
+  --line-2: #3a362d;
+  --signal: var(--amber);
+  --signal-text: var(--amber);
+  --signal-display: var(--amber); /* large type: 3:1 is enough */
+  --on-signal: #170d00;
+  --go-text: var(--go);
+  --stop-text: var(--stop);
+  --grid: rgb(239 234 223 / 0.035);
+  --shadow: inset 0 1px 0 rgb(255 255 255 / 0.03), 0 24px 48px -28px rgb(0 0 0 / 0.85);
+}
+
+[data-theme="paper"] {
+  color-scheme: light;
+  --bg: var(--paper-1);
+  --surface: var(--paper-0);
+  --raised: #ffffff;
+  --sunken: var(--paper-2);
+  --fg: var(--ink-0);
+  --fg-2: var(--ink-2);
+  --fg-3: var(--ink-3);
+  --fg-4: #aaa395;
+  --line: #ddd6c7;
+  --line-2: #cbc2af;
+  --signal: var(--amber);
+  --signal-text: var(--amber-ink);
+  --signal-display: #c46a00;
+  --on-signal: #170d00;
+  --go-text: var(--go-ink);
+  --stop-text: var(--stop-ink);
+  --grid: rgb(22 21 15 / 0.045);
+  --shadow: inset 0 1px 0 rgb(255 255 255 / 0.7), 0 20px 40px -28px rgb(70 50 20 / 0.35);
+}
+
+/* Without JavaScript, follow the system preference. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+    --bg: var(--paper-1);
+    --surface: var(--paper-0);
+    --raised: #ffffff;
+    --sunken: var(--paper-2);
+    --fg: var(--ink-0);
+    --fg-2: var(--ink-2);
+    --fg-3: var(--ink-3);
+    --fg-4: #aaa395;
+    --line: #ddd6c7;
+    --line-2: #cbc2af;
+    --signal-text: var(--amber-ink);
+    --signal-display: #c46a00;
+    --go-text: var(--go-ink);
+    --stop-text: var(--stop-ink);
+    --grid: rgb(22 21 15 / 0.045);
+  }
+}

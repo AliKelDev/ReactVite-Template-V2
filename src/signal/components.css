@@ -1,0 +1,559 @@
+/* Signal: components. Every class starts with sg- so projects can add their own without collisions. */
+
+/* ------------------------------------------------------------------ layout */
+
+.sg-page {
+  width: 100%;
+  max-width: var(--page);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 40px);
+}
+
+.sg-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap, var(--s-4));
+}
+
+.sg-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap, var(--s-3));
+}
+
+/* ------------------------------------------------------------------ labels */
+
+/* The mono caps label: "01  INPUT". The index is the one place the signal colour appears. */
+.sg-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--fg-3);
+  line-height: 1.2;
+}
+
+.sg-label b {
+  font-weight: 500;
+  color: var(--signal-text);
+}
+
+.sg-label--line::after {
+  content: "";
+  flex: 0 0 32px;
+  height: 1px;
+  background: var(--line-2);
+}
+
+.sg-kicker {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  color: var(--fg-3);
+}
+
+.sg-display {
+  font-size: var(--display-1);
+  font-weight: 640;
+  font-stretch: var(--wide);
+  letter-spacing: -0.02em;
+  line-height: 0.98;
+}
+
+.sg-display em {
+  font-style: normal;
+  color: var(--signal-display);
+}
+
+.sg-lede {
+  max-width: 56ch;
+  font-size: var(--text-lg);
+  line-height: 1.6;
+  color: var(--fg-2);
+}
+
+.sg-prose {
+  max-width: var(--measure);
+  color: var(--fg-2);
+}
+
+.sg-prose > * + * {
+  margin-top: 1em;
+}
+
+.sg-muted {
+  color: var(--fg-3);
+}
+
+/* ------------------------------------------------------------------ panels */
+
+.sg-panel {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-3);
+  box-shadow: var(--shadow);
+}
+
+.sg-panel--flat {
+  box-shadow: none;
+}
+
+.sg-panel--sunken {
+  background: var(--sunken);
+  box-shadow: none;
+}
+
+.sg-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+
+.sg-panel__body {
+  padding: var(--s-5);
+}
+
+/* Registration marks: small corner ticks floating just outside a panel. */
+.sg-mark {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  pointer-events: none;
+  border-color: var(--fg-4);
+  border-style: solid;
+  border-width: 0;
+}
+
+.sg-mark--tl {
+  top: -7px;
+  left: -7px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+
+.sg-mark--tr {
+  top: -7px;
+  right: -7px;
+  border-top-width: 1px;
+  border-right-width: 1px;
+}
+
+.sg-mark--bl {
+  bottom: -7px;
+  left: -7px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+}
+
+.sg-mark--br {
+  bottom: -7px;
+  right: -7px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+}
+
+/* ------------------------------------------------------------------ buttons */
+
+.sg-btn {
+  --btn-h: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: var(--btn-h);
+  padding: 0 18px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-2);
+  background: transparent;
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 560;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  transition:
+    border-color var(--t-fast) var(--ease-out),
+    background-color var(--t-fast) var(--ease-out),
+    box-shadow var(--t-mid) var(--ease-out),
+    transform var(--t-fast) var(--ease-out);
+}
+
+.sg-btn:hover {
+  border-color: var(--fg-3);
+  background: var(--raised);
+}
+
+.sg-btn:active {
+  transform: translateY(1px);
+}
+
+.sg-btn:disabled,
+.sg-btn[aria-disabled="true"] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.sg-btn--signal {
+  border-color: transparent;
+  background: var(--signal);
+  color: var(--on-signal);
+}
+
+.sg-btn--signal:hover {
+  border-color: transparent;
+  background: var(--signal);
+  box-shadow: 0 0 0 4px var(--amber-soft), 0 0 28px var(--amber-glow);
+}
+
+.sg-btn--ghost {
+  border-color: transparent;
+}
+
+.sg-btn--sm {
+  --btn-h: 32px;
+  padding: 0 12px;
+  font-size: var(--text-xs);
+}
+
+.sg-btn--lg {
+  --btn-h: 48px;
+  padding: 0 24px;
+  font-size: var(--text-md);
+}
+
+.sg-btn--icon {
+  width: var(--btn-h);
+  padding: 0;
+}
+
+/* ------------------------------------------------------------------ fields */
+
+.sg-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.sg-field__hint {
+  font-size: var(--text-xs);
+  color: var(--fg-3);
+}
+
+.sg-input,
+.sg-textarea,
+.sg-select {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-2);
+  background: var(--sunken);
+  color: var(--fg);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  transition: border-color var(--t-fast) var(--ease-out), box-shadow var(--t-mid) var(--ease-out);
+}
+
+.sg-textarea {
+  min-height: 120px;
+  resize: vertical;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.sg-input::placeholder,
+.sg-textarea::placeholder {
+  color: var(--fg-4);
+}
+
+.sg-input:focus,
+.sg-textarea:focus,
+.sg-select:focus {
+  outline: none;
+  border-color: var(--signal);
+  box-shadow: 0 0 0 4px var(--amber-soft);
+}
+
+/* ------------------------------------------------------------------ switch */
+
+.sg-switch {
+  --w: 46px;
+  --h: 26px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  padding: 0;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.sg-switch__track {
+  position: relative;
+  width: var(--w);
+  height: var(--h);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-pill);
+  background: var(--sunken);
+  transition: background-color var(--t-mid) var(--ease-out), border-color var(--t-mid) var(--ease-out);
+}
+
+.sg-switch__knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(var(--h) - 8px);
+  height: calc(var(--h) - 8px);
+  border-radius: 50%;
+  background: var(--fg-2);
+  transition: transform var(--t-mid) var(--ease-out), background-color var(--t-mid) var(--ease-out);
+}
+
+.sg-switch[aria-checked="true"] .sg-switch__track {
+  border-color: var(--signal);
+  background: var(--amber-soft);
+}
+
+.sg-switch[aria-checked="true"] .sg-switch__knob {
+  transform: translateX(calc(var(--w) - var(--h)));
+  background: var(--signal);
+  box-shadow: 0 0 10px var(--amber-glow);
+}
+
+/* ------------------------------------------------------------------ indicators */
+
+.sg-led {
+  display: inline-block;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 0 3px var(--amber-soft), 0 0 10px var(--amber-glow);
+}
+
+.sg-led--go {
+  background: var(--go);
+  box-shadow: 0 0 0 3px rgb(123 228 149 / 0.14), 0 0 10px rgb(123 228 149 / 0.4);
+}
+
+.sg-led--stop {
+  background: var(--stop);
+  box-shadow: 0 0 0 3px rgb(255 106 85 / 0.14), 0 0 10px rgb(255 106 85 / 0.4);
+}
+
+.sg-led--off {
+  background: var(--fg-4);
+  box-shadow: none;
+}
+
+.sg-led.is-live {
+  animation: sg-pulse 2.4s var(--ease-in-out) infinite;
+}
+
+/* A pixel readout, like a 1979 terminal counter. */
+.sg-readout {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+
+.sg-readout__value {
+  font-family: var(--font-pixel);
+  font-size: clamp(2.4rem, 1.6rem + 2.4vw, 3.4rem);
+  line-height: 0.82;
+  letter-spacing: 0.02em;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.sg-readout__unit {
+  margin-left: 0.18em;
+  font-size: 0.5em;
+  color: var(--fg-3);
+}
+
+.sg-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 10px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+  white-space: nowrap;
+}
+
+.sg-tag--signal {
+  border-color: transparent;
+  background: var(--amber-soft);
+  color: var(--signal-text);
+}
+
+.sg-kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 1px 6px;
+  border: 1px solid var(--line-2);
+  border-bottom-width: 2px;
+  border-radius: var(--r-1);
+  background: var(--raised);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  text-align: center;
+  color: var(--fg-2);
+}
+
+/* A hairline with a label in the middle. */
+.sg-rule {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--fg-4);
+}
+
+.sg-rule::before,
+.sg-rule::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+/* ------------------------------------------------------------------ code */
+
+.sg-code {
+  position: relative;
+  margin: 0;
+  padding: var(--s-4) var(--s-5);
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--r-2);
+  background: var(--sunken);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.75;
+  color: var(--fg-2);
+}
+
+.sg-code .sg-prompt {
+  color: var(--signal-text);
+  user-select: none;
+}
+
+.sg-code .sg-comment {
+  color: var(--fg-4);
+}
+
+/* ------------------------------------------------------------------ motion */
+
+.sg-boot {
+  animation: sg-boot var(--t-slow) var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 80ms);
+}
+
+.sg-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 0.12em;
+  vertical-align: -0.16em;
+  background: var(--signal);
+  animation: sg-blink 1.1s steps(1, end) infinite;
+}
+
+@keyframes sg-boot {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes sg-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes sg-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes sg-sweep {
+  from {
+    transform: translateX(-10%);
+  }
+  to {
+    transform: translateX(110%);
+  }
+}
+
+/* ------------------------------------------------------------------ scope */
+
+.sg-scope {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.sg-scope__trace {
+  animation: sg-scroll 9s linear infinite;
+  filter: drop-shadow(0 0 3px var(--amber-glow));
+}
+
+.sg-scope__beam {
+  animation: sg-beam 5s var(--ease-in-out) infinite;
+}
+
+@keyframes sg-scroll {
+  to {
+    transform: translateX(-600px);
+  }
+}
+
+@keyframes sg-beam {
+  from {
+    transform: translateX(-120px);
+  }
+  to {
+    transform: translateX(600px);
+  }
+}
